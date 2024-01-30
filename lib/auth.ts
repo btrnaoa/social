@@ -26,9 +26,7 @@ export const auth = lucia({
 
 export type Auth = typeof auth
 
-export function getPageSession() {
-  return React.cache(() => {
-    const authRequest = auth.handleRequest("GET", context)
-    return authRequest.validate()
-  })
-}
+export const getPageSession = React.cache(() => {
+  const authRequest = auth.handleRequest("GET", context)
+  return authRequest.validate()
+})

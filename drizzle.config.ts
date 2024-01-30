@@ -6,7 +6,7 @@ dotenv.config({
 })
 
 export default {
-  schema: "./lib/schema.ts",
+  schema: "./lib/db/schema/*.ts",
   driver: "pg",
   dbCredentials: {
     connectionString: process.env.DATABASE_URL!,
