@@ -2,13 +2,22 @@
 
 import { getPosts } from "@/app/api/posts"
 import { useQuery } from "@tanstack/react-query"
+import PostCard from "./post-card"
 
-export default function Posts() {
+interface PostsProps extends React.HTMLAttributes<HTMLUListElement> {}
+
+export default function Posts({ className }: PostsProps) {
   const { data } = useQuery({
     queryKey: ["posts"],
     queryFn: getPosts,
   })
   return (
-    <ul>{data?.posts.map((post) => <li key={post.id}>{post.content}</li>)}</ul>
+    <ul className={className}>
+      {data?.posts.map((post) => (
+        <li key={post.id}>
+          <PostCard post={post} />
+        </li>
+      ))}
+    </ul>
   )
 }

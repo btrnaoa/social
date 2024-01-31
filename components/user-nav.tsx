@@ -1,6 +1,5 @@
 import { getPageSession } from "@/lib/auth"
 import { LogOut } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
 import {
   DropdownMenu,
@@ -10,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
+import UserAvatar from "./user-avatar"
 
 interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -23,13 +23,7 @@ export default async function UserNav({ className }: UserNavProps) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relatiev h-8 w-8 rounded-full">
-            <Avatar className="h-9 w-9">
-              <AvatarImage
-                src="https://github.com/btrnaoa.png"
-                alt="@btrnaoa"
-              />
-              <AvatarFallback>B</AvatarFallback>
-            </Avatar>
+            <UserAvatar />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>

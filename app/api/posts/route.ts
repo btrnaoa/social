@@ -1,12 +1,23 @@
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { post } from "@/lib/db/schema/post"
+import { user } from "@/lib/db/schema/user"
 import { postCreateSchema } from "@/lib/validations/post"
+import { eq } from "drizzle-orm"
 import * as context from "next/headers"
 import { ZodError } from "zod"
 
 export async function GET(req: Request) {
-  const posts = await db.select().from(post)
+  const posts = await db
+    .select({
+      id: post.id,
+      content: post.content,
+      user: {
+        username: user.username,
+      },
+    })
+    .from(post)
+    .innerJoin(user, eq(post.userId, user.id))
   return new Response(JSON.stringify(posts))
 }
 

@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm"
 import { pgTable, varchar } from "drizzle-orm/pg-core"
 import { nanoid } from "nanoid"
 import { user } from "./user"
@@ -12,4 +13,17 @@ export const post = pgTable("post", {
     .references(() => user.id),
 })
 
-export type Post = typeof post.$inferSelect
+export const postRelations = relations(post, ({ one }) => ({
+  user: one(user, {
+    fields: [post.userId],
+    references: [user.id],
+  }),
+}))
+
+export interface Post {
+  id: string
+  content: string
+  user: {
+    username: string
+  }
+}

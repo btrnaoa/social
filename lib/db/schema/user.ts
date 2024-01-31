@@ -1,9 +1,15 @@
-import { pgTable, bigint, varchar } from "drizzle-orm/pg-core"
+import { relations } from "drizzle-orm"
+import { bigint, pgTable, varchar } from "drizzle-orm/pg-core"
+import { post } from "./post"
 
 export const user = pgTable("auth_user", {
   id: varchar("id", { length: 15 }).primaryKey(),
   username: varchar("username", { length: 31 }).notNull(),
 })
+
+export const userRelations = relations(user, ({ many }) => ({
+  posts: many(post),
+}))
 
 export const session = pgTable("user_session", {
   id: varchar("id", { length: 128 }).primaryKey(),
