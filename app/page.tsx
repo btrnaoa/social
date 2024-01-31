@@ -1,6 +1,6 @@
 import PostCreateDialog from "@/components/post-create-dialog"
 import Posts from "@/components/posts"
-import { Button } from "@/components/ui/button"
+import UserNav from "@/components/user-nav"
 import { getPageSession } from "@/lib/auth"
 import {
   HydrationBoundary,
@@ -16,24 +16,18 @@ export default async function Home() {
   if (!session) redirect("/sign-in")
 
   const queryClient = new QueryClient()
-
   await queryClient.prefetchQuery({
     queryKey: ["posts"],
     queryFn: getPosts,
   })
 
   return (
-    <div>
-      <p>
-        {session.user.username} ({session.user.userId})
-      </p>
-      <form action="/api/signout" method="post">
-        <Button type="submit">Sign out</Button>
-      </form>
+    <>
+      <UserNav className="m-4 flex justify-end" />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Posts />
       </HydrationBoundary>
       <PostCreateDialog />
-    </div>
+    </>
   )
 }
