@@ -25,7 +25,10 @@ export default async function Home() {
     <>
       <UserNav className="m-4 flex justify-end" />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Posts className="mx-2 max-w-fit space-y-4 sm:mx-auto" />
+        <Posts
+          sessionUserId={session.user.userId}
+          className="mx-2 space-y-4 sm:mx-auto sm:max-w-fit"
+        />
       </HydrationBoundary>
       <PostCreateDialog />
     </>

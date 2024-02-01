@@ -3,7 +3,7 @@ import { db } from "@/lib/db"
 import { post } from "@/lib/db/schema/post"
 import { user } from "@/lib/db/schema/user"
 import { postCreateSchema } from "@/lib/validations/post"
-import { eq } from "drizzle-orm"
+import { desc, eq } from "drizzle-orm"
 import * as context from "next/headers"
 import { ZodError } from "zod"
 
@@ -12,12 +12,15 @@ export async function GET(req: Request) {
     .select({
       id: post.id,
       content: post.content,
+      createdAt: post.createdAt,
       user: {
+        id: user.id,
         username: user.username,
       },
     })
     .from(post)
     .innerJoin(user, eq(post.userId, user.id))
+    .orderBy(desc(post.createdAt))
   return new Response(JSON.stringify(posts))
 }
 
