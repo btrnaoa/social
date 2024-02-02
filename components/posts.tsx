@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import PostCard from "./post-card"
 
 interface PostsProps extends React.HTMLAttributes<HTMLUListElement> {
-  sessionUserId: string
+  sessionUserId: string | undefined
 }
 
 export default function Posts({ sessionUserId, className }: PostsProps) {

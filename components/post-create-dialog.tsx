@@ -22,6 +22,13 @@ import {
 export default function PostCreateDialog() {
   const [open, setOpen] = useState(false)
 
+  const form = useForm<z.infer<typeof postCreateSchema>>({
+    resolver: zodResolver(postCreateSchema),
+    defaultValues: {
+      content: "",
+    },
+  })
+
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: async (content: string) => {
@@ -35,14 +42,8 @@ export default function PostCreateDialog() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] })
+      form.reset()
       setOpen(false)
-    },
-  })
-
-  const form = useForm<z.infer<typeof postCreateSchema>>({
-    resolver: zodResolver(postCreateSchema),
-    defaultValues: {
-      content: "",
     },
   })
 

@@ -5,7 +5,7 @@ import UserAvatar from "./user-avatar"
 
 interface PostCardProps {
   post: Post
-  sessionUserId: string
+  sessionUserId: string | undefined
 }
 
 export default function PostCard({ post, sessionUserId }: PostCardProps) {
@@ -22,7 +22,9 @@ export default function PostCard({ post, sessionUserId }: PostCardProps) {
             </p>
           </div>
         </div>
-        {user.id === sessionUserId && <PostCardOptionsMenu postId={post.id} />}
+        {sessionUserId && user.id === sessionUserId && (
+          <PostCardOptionsMenu postId={post.id} />
+        )}
       </CardHeader>
       <CardContent>
         <p className="text-sm leading-none sm:w-[50ch]">{content}</p>

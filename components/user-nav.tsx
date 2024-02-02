@@ -15,9 +15,6 @@ interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export default async function UserNav({ className }: UserNavProps) {
   const session = await getPageSession()
-  if (!session) {
-    return <p>Oops!</p>
-  }
   return (
     <div className={className}>
       <DropdownMenu>
@@ -29,7 +26,7 @@ export default async function UserNav({ className }: UserNavProps) {
         <DropdownMenuContent>
           <DropdownMenuLabel>
             <p className="text-sm font-medium leading-none">
-              {session.user.username}
+              {session?.user.username}
             </p>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
