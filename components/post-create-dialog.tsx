@@ -1,14 +1,14 @@
 "use client"
 
-import { cn } from "@/lib/utils"
-import { postCreateSchema } from "@/lib/validations/post"
+import { postMutateSchema } from "@/lib/validations/post"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Loader2, PlusIcon } from "lucide-react"
+import { PlusIcon } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import PostCreateForm from "./post-create-form"
+import PostMutateForm from "./post-mutate-form"
+import PostSubmitButton from "./post-submit-button"
 import { Button } from "./ui/button"
 import {
   Dialog,
@@ -22,8 +22,8 @@ import {
 export default function PostCreateDialog() {
   const [open, setOpen] = useState(false)
 
-  const form = useForm<z.infer<typeof postCreateSchema>>({
-    resolver: zodResolver(postCreateSchema),
+  const form = useForm<z.infer<typeof postMutateSchema>>({
+    resolver: zodResolver(postMutateSchema),
     defaultValues: {
       content: "",
     },
@@ -47,7 +47,7 @@ export default function PostCreateDialog() {
     },
   })
 
-  const onSubmit = async (values: z.infer<typeof postCreateSchema>) => {
+  const onSubmit = async (values: z.infer<typeof postMutateSchema>) => {
     mutation.mutate(values.content)
   }
 
@@ -65,18 +65,12 @@ export default function PostCreateDialog() {
         <DialogHeader>
           <DialogTitle>Create a post</DialogTitle>
         </DialogHeader>
-        <PostCreateForm form={form} />
+        <PostMutateForm form={form} />
         <DialogFooter>
-          <Button
+          <PostSubmitButton
+            isPending={mutation.isPending}
             onClick={form.handleSubmit(onSubmit)}
-            disabled={mutation.isPending}
-            className="grid justify-items-center"
-          >
-            {mutation.isPending && <Loader2 className="animate-spin" />}
-            <span className={cn({ invisible: mutation.isPending })}>
-              Submit
-            </span>
-          </Button>
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>

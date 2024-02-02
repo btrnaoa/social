@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { post } from "@/lib/db/schema/post"
 import { user } from "@/lib/db/schema/user"
-import { postCreateSchema } from "@/lib/validations/post"
+import { postMutateSchema } from "@/lib/validations/post"
 import { desc, eq } from "drizzle-orm"
 import * as context from "next/headers"
 import { ZodError } from "zod"
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 
   try {
     const json = await req.json()
-    const data = postCreateSchema.parse(json)
+    const data = postMutateSchema.parse(json)
 
     // TODO: rename this
     const foo = await db

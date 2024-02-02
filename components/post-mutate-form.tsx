@@ -1,14 +1,14 @@
-import { postCreateSchema } from "@/lib/validations/post"
+import { postMutateSchema } from "@/lib/validations/post"
 import { type UseFormReturn } from "react-hook-form"
 import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form"
 import { Textarea } from "./ui/textarea"
 
-interface PostCreateFormProps {
-  form: UseFormReturn<z.infer<typeof postCreateSchema>>
+interface PostMutateFormProps {
+  form: UseFormReturn<z.infer<typeof postMutateSchema>>
 }
 
-export default function PostCreateForm({ form }: PostCreateFormProps) {
+export default function PostMutateForm({ form }: PostMutateFormProps) {
   return (
     <Form {...form}>
       <form className="space-y-8">

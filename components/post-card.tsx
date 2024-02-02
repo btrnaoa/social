@@ -23,7 +23,7 @@ export default function PostCard({ post, sessionUserId }: PostCardProps) {
           </div>
         </div>
         {sessionUserId && user.id === sessionUserId && (
-          <PostCardOptionsMenu postId={post.id} />
+          <PostCardOptionsMenu postId={post.id} postContent={content} />
         )}
       </CardHeader>
       <CardContent>
