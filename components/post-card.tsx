@@ -1,7 +1,11 @@
 import { type Post } from "@/lib/db/schema/post"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 import PostCardOptionsMenu from "./post-card-options-menu"
 import { Card, CardContent, CardHeader } from "./ui/card"
 import UserAvatar from "./user-avatar"
+
+dayjs.extend(relativeTime)
 
 interface PostCardProps {
   post: Post
@@ -9,7 +13,7 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post, sessionUserId }: PostCardProps) {
-  const { content, user } = post
+  const { content, createdAt, user } = post
   return (
     <Card className="border-none">
       <CardHeader className="flex-row justify-between">
@@ -18,7 +22,7 @@ export default function PostCard({ post, sessionUserId }: PostCardProps) {
           <div className="ml-4 space-y-2">
             <p className="text-sm font-medium leading-none">{user.username}</p>
             <p className="text-[0.625rem] leading-none text-muted-foreground">
-              45 min ago
+              {dayjs(createdAt).fromNow()}
             </p>
           </div>
         </div>
