@@ -9,7 +9,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query"
 import Link from "next/link"
-import { getPosts } from "./api/posts"
+import { getAllPosts } from "./api/posts"
 
 export default async function Home() {
   const session = await getPageSession()
@@ -17,7 +17,7 @@ export default async function Home() {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
     queryKey: ["posts"],
-    queryFn: getPosts,
+    queryFn: getAllPosts,
   })
 
   return (
