@@ -18,7 +18,7 @@ export default function PostCard({ post, sessionUserId }: PostCardProps) {
     <Card className="border-none">
       <CardHeader className="flex-row justify-between">
         <div className="flex items-center">
-          <UserAvatar className="h-14 w-14" />
+          <UserAvatar name={user.username} className="h-14 w-14" />
           <div className="ml-4 space-y-2">
             <p className="text-sm font-medium leading-none">{user.username}</p>
             <p className="text-[0.625rem] leading-none text-muted-foreground">

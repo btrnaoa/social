@@ -19,8 +19,8 @@ export default async function UserNav({ className }: UserNavProps) {
     <div className={className}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relatiev h-8 w-8 rounded-full">
-            <UserAvatar />
+          <Button variant="ghost" className="h-9 w-9 rounded-full">
+            <UserAvatar name={session?.user.username} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
