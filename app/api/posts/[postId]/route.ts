@@ -23,8 +23,8 @@ export async function PATCH(
       return new Response(null, { status: 403 })
     }
 
-    const json = await req.json()
-    const body = postMutateSchema.parse(json)
+    const data = await req.json()
+    const body = postMutateSchema.parse(data)
 
     await db
       .update(post)
@@ -32,16 +32,18 @@ export async function PATCH(
       .where(
         and(eq(post.id, params.postId), eq(post.userId, session.user.userId))
       )
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify(e.issues), { status: 422 })
+
+    return new Response(null, { status: 204 })
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
     }
     return new Response(null, { status: 500 })
   }
 }
 
 export async function DELETE(
-  req: Request,
+  _req: Request,
   context: z.infer<typeof requestContextSchema>
 ) {
   try {
@@ -57,10 +59,11 @@ export async function DELETE(
       .where(
         and(eq(post.id, params.postId), eq(post.userId, session.user.userId))
       )
+
     return new Response(null, { status: 204 })
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify(e.issues), { status: 422 })
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
     }
     return new Response(null, { status: 500 })
   }

@@ -20,13 +20,3 @@ export const postRelations = relations(post, ({ one }) => ({
     references: [user.id],
   }),
 }))
-
-export interface Post {
-  id: string
-  content: string
-  createdAt: Date
-  user: {
-    id: string
-    username: string
-  }
-}

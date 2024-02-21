@@ -1,4 +1,4 @@
-import { type Post } from "@/lib/db/schema/post"
+import { type Post } from "@/lib/schema/post"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import PostCardOptionsMenu from "./post-card-options-menu"

@@ -2,6 +2,7 @@ import PostCreateDialog from "@/components/post-create-dialog"
 import Posts from "@/components/posts"
 import { Button } from "@/components/ui/button"
 import UserNav from "@/components/user-nav"
+import { getAllPosts } from "@/lib/api/posts"
 import { getPageSession } from "@/lib/auth"
 import {
   HydrationBoundary,
@@ -9,7 +10,6 @@ import {
   dehydrate,
 } from "@tanstack/react-query"
 import Link from "next/link"
-import { getAllPosts } from "./api/posts"
 
 export default async function Home() {
   const session = await getPageSession()
@@ -32,10 +32,7 @@ export default async function Home() {
         </div>
       )}
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Posts
-          sessionUserId={session?.user.userId}
-          className="mx-2 space-y-4 sm:mx-auto sm:max-w-fit"
-        />
+        <Posts sessionUserId={session?.user.userId} />
       </HydrationBoundary>
       {session && <PostCreateDialog />}
     </>
