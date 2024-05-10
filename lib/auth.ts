@@ -1,16 +1,17 @@
-import { pg } from "@lucia-auth/adapter-postgresql"
+import { postgres } from "@lucia-auth/adapter-postgresql"
 import { lucia } from "lucia"
 import { nextjs_future } from "lucia/middleware"
 import * as context from "next/headers"
 import * as React from "react"
-import { pool } from "./db"
+import { tablePrefix } from "./constants"
+import { client } from "./db"
 
 export const auth = lucia({
   env: "DEV",
-  adapter: pg(pool, {
-    user: "auth_user",
-    key: "user_key",
-    session: "user_session",
+  adapter: postgres(client, {
+    user: `${tablePrefix}_auth_user`,
+    key: `${tablePrefix}_user_key`,
+    session: `${tablePrefix}_user_session`,
   }),
   middleware: nextjs_future(),
   sessionCookie: {

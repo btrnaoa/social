@@ -1,9 +1,10 @@
+import { pgTable } from "@/lib/utils"
 import { relations } from "drizzle-orm"
-import { pgTable, timestamp, varchar } from "drizzle-orm/pg-core"
+import { timestamp, varchar } from "drizzle-orm/pg-core"
 import { nanoid } from "nanoid"
-import { user } from "./user"
+import { users } from "./users"
 
-export const post = pgTable("post", {
+export const posts = pgTable("posts", {
   id: varchar("id", { length: 21 })
     .$defaultFn(() => nanoid())
     .primaryKey(),
@@ -11,12 +12,12 @@ export const post = pgTable("post", {
   createdAt: timestamp("created_at").defaultNow(),
   userId: varchar("user_id", { length: 15 })
     .notNull()
-    .references(() => user.id),
+    .references(() => users.id),
 })
 
-export const postRelations = relations(post, ({ one }) => ({
-  user: one(user, {
-    fields: [post.userId],
-    references: [user.id],
+export const postsRelations = relations(posts, ({ one }) => ({
+  user: one(users, {
+    fields: [posts.userId],
+    references: [users.id],
   }),
 }))

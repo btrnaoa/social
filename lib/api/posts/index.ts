@@ -1,21 +1,20 @@
 import { db } from "@/lib/db"
-import { post } from "@/lib/db/schema/post"
-import { user } from "@/lib/db/schema/user"
+import { posts, users } from "@/lib/db/schema"
 import { desc, eq } from "drizzle-orm"
 
 export async function getAllPosts() {
-  const posts = await db
+  const allPosts = await db
     .select({
-      id: post.id,
-      content: post.content,
-      createdAt: post.createdAt,
+      id: posts.id,
+      content: posts.content,
+      createdAt: posts.createdAt,
       user: {
-        id: user.id,
-        username: user.username,
+        id: users.id,
+        username: users.username,
       },
     })
-    .from(post)
-    .innerJoin(user, eq(post.userId, user.id))
-    .orderBy(desc(post.createdAt))
-  return { posts }
+    .from(posts)
+    .innerJoin(users, eq(posts.userId, users.id))
+    .orderBy(desc(posts.createdAt))
+  return { posts: allPosts }
 }

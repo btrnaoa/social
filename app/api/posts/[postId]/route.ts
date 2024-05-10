@@ -1,6 +1,6 @@
 import { getPageSession } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { post } from "@/lib/db/schema/post"
+import { posts } from "@/lib/db/schema"
 import { postMutateSchema } from "@/lib/validations/post"
 import { and, eq } from "drizzle-orm"
 import { ZodError, z } from "zod"
@@ -27,10 +27,10 @@ export async function PATCH(
     const body = postMutateSchema.parse(data)
 
     await db
-      .update(post)
+      .update(posts)
       .set({ content: body.content })
       .where(
-        and(eq(post.id, params.postId), eq(post.userId, session.user.userId))
+        and(eq(posts.id, params.postId), eq(posts.userId, session.user.userId))
       )
 
     return new Response(null, { status: 204 })
@@ -55,9 +55,9 @@ export async function DELETE(
     }
 
     await db
-      .delete(post)
+      .delete(posts)
       .where(
-        and(eq(post.id, params.postId), eq(post.userId, session.user.userId))
+        and(eq(posts.id, params.postId), eq(posts.userId, session.user.userId))
       )
 
     return new Response(null, { status: 204 })

@@ -1,7 +1,7 @@
 import { getAllPosts } from "@/lib/api/posts"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { post } from "@/lib/db/schema/post"
+import { posts } from "@/lib/db/schema"
 import { postMutateSchema } from "@/lib/validations/post"
 import * as context from "next/headers"
 import { ZodError } from "zod"
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     const data = postMutateSchema.parse(json)
 
     const res = await db
-      .insert(post)
+      .insert(posts)
       .values({ content: data.content, userId: session.user.userId })
       .returning()
 
