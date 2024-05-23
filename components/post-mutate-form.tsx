@@ -1,4 +1,4 @@
-import { postMutateSchema } from "@/lib/validations/post"
+import { postMutateSchema } from "@/lib/validations/posts"
 import { type UseFormReturn } from "react-hook-form"
 import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form"

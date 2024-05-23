@@ -1,4 +1,5 @@
-import { type Post } from "@/lib/schema/post"
+import { validateRequest } from "@/lib/auth"
+import { PostWithUser } from "@/types"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import PostCardOptionsMenu from "./post-card-options-menu"
@@ -8,25 +9,27 @@ import UserAvatar from "./user-avatar"
 dayjs.extend(relativeTime)
 
 interface PostCardProps {
-  post: Post
-  sessionUserId: string | undefined
+  post: PostWithUser
 }
 
-export default function PostCard({ post, sessionUserId }: PostCardProps) {
+export default async function PostCard({ post }: PostCardProps) {
+  const { session } = await validateRequest()
+
   const { content, createdAt, user } = post
+
   return (
     <Card className="border-none">
       <CardHeader className="flex-row justify-between">
         <div className="flex items-center">
-          <UserAvatar name={user.username} className="h-14 w-14" />
+          <UserAvatar name={user?.username} className="h-14 w-14" />
           <div className="ml-4 space-y-2">
-            <p className="text-sm font-medium leading-none">{user.username}</p>
+            <p className="text-sm font-medium leading-none">{user?.username}</p>
             <p className="text-[0.625rem] leading-none text-muted-foreground">
               {dayjs(createdAt).fromNow()}
             </p>
           </div>
         </div>
-        {sessionUserId && user.id === sessionUserId && (
+        {session?.userId === user?.id && (
           <PostCardOptionsMenu postId={post.id} postContent={content} />
         )}
       </CardHeader>

@@ -1,10 +1,11 @@
 "use client"
 
-import { postMutateSchema } from "@/lib/validations/post"
+import { createPost } from "@/lib/actions/posts"
+import { postMutateSchema } from "@/lib/validations/posts"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { PlusIcon } from "lucide-react"
 import { useState } from "react"
+import { useFormStatus } from "react-dom"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import PostMutateForm from "./post-mutate-form"
@@ -21,6 +22,7 @@ import {
 
 export default function PostCreateDialog() {
   const [open, setOpen] = useState(false)
+  const { pending } = useFormStatus()
 
   const form = useForm<z.infer<typeof postMutateSchema>>({
     resolver: zodResolver(postMutateSchema),
@@ -29,26 +31,9 @@ export default function PostCreateDialog() {
     },
   })
 
-  const queryClient = useQueryClient()
-  const mutation = useMutation({
-    mutationFn: async (content: string) => {
-      await fetch("/api/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content }),
-      })
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] })
-      form.reset()
-      setOpen(false)
-    },
-  })
-
   const onSubmit = async (values: z.infer<typeof postMutateSchema>) => {
-    mutation.mutate(values.content)
+    await createPost(values.content)
+    setOpen(false)
   }
 
   return (
@@ -68,7 +53,7 @@ export default function PostCreateDialog() {
         <PostMutateForm form={form} />
         <DialogFooter>
           <PostSubmitButton
-            isPending={mutation.isPending}
+            isPending={pending}
             onClick={form.handleSubmit(onSubmit)}
           />
         </DialogFooter>

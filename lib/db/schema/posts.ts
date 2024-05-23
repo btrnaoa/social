@@ -9,7 +9,7 @@ export const posts = pgTable("posts", {
     .$defaultFn(() => nanoid())
     .primaryKey(),
   content: varchar("content", { length: 250 }).notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
   userId: text("user_id").references(() => users.id),
 })
 
@@ -19,3 +19,5 @@ export const postsRelations = relations(posts, ({ one }) => ({
     references: [users.id],
   }),
 }))
+
+export type InsertPost = typeof posts.$inferInsert

@@ -2,22 +2,24 @@ import PostCreateDialog from "@/components/post-create-dialog"
 import Posts from "@/components/posts"
 import { Button } from "@/components/ui/button"
 import UserNav from "@/components/user-nav"
-import { getAllPosts } from "@/lib/api/posts"
 import { validateRequest } from "@/lib/auth"
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query"
+import { db } from "@/lib/db"
 import Link from "next/link"
 
 export default async function Home() {
-  const { session, user } = await validateRequest()
+  const { session } = await validateRequest()
 
-  const queryClient = new QueryClient()
-  await queryClient.prefetchQuery({
-    queryKey: ["posts"],
-    queryFn: getAllPosts,
+  const allPosts = await db.query.posts.findMany({
+    columns: {
+      userId: false,
+    },
+    with: {
+      user: {
+        columns: {
+          passwordHash: false,
+        },
+      },
+    },
   })
 
   return (
@@ -31,9 +33,7 @@ export default async function Home() {
           </Button>
         </div>
       )}
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Posts sessionUserId={user?.id} />
-      </HydrationBoundary>
+      <Posts posts={allPosts} />
       {session && <PostCreateDialog />}
     </>
   )
