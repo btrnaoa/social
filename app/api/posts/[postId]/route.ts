@@ -1,4 +1,4 @@
-import { getPageSession } from "@/lib/auth"
+import { validateRequest } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { posts } from "@/lib/db/schema"
 import { postMutateSchema } from "@/lib/validations/post"
@@ -18,7 +18,7 @@ export async function PATCH(
   try {
     const { params } = requestContextSchema.parse(context)
 
-    const session = await getPageSession()
+    const { session, user } = await validateRequest()
     if (!session) {
       return new Response(null, { status: 403 })
     }
@@ -29,9 +29,7 @@ export async function PATCH(
     await db
       .update(posts)
       .set({ content: body.content })
-      .where(
-        and(eq(posts.id, params.postId), eq(posts.userId, session.user.userId))
-      )
+      .where(and(eq(posts.id, params.postId), eq(posts.userId, user.id)))
 
     return new Response(null, { status: 204 })
   } catch (error) {
@@ -49,16 +47,14 @@ export async function DELETE(
   try {
     const { params } = requestContextSchema.parse(context)
 
-    const session = await getPageSession()
+    const { session, user } = await validateRequest()
     if (!session) {
       return new Response(null, { status: 403 })
     }
 
     await db
       .delete(posts)
-      .where(
-        and(eq(posts.id, params.postId), eq(posts.userId, session.user.userId))
-      )
+      .where(and(eq(posts.id, params.postId), eq(posts.userId, user.id)))
 
     return new Response(null, { status: 204 })
   } catch (error) {

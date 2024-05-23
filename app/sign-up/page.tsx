@@ -1,20 +1,25 @@
 import UserAuthForm from "@/components/user-auth-form"
-import { getPageSession } from "@/lib/auth"
+import { signup } from "@/lib/actions/auth"
+import { validateRequest } from "@/lib/auth"
 import { redirect } from "next/navigation"
 
 export default async function Page() {
-  const session = await getPageSession()
+  const { user } = await validateRequest()
 
-  if (session) redirect("/")
+  if (user) redirect("/")
 
   return (
     <UserAuthForm
-      action="/api/signup"
       submitButtonText="Sign up"
       headerText="Sign up"
       footerText="Already have an account?"
       footerLink="/sign-in"
       footerLinkText="Sign in"
+      handleSubmit={async (formData) => {
+        "use server"
+
+        await signup(formData)
+      }}
     />
   )
 }

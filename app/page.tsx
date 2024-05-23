@@ -3,7 +3,7 @@ import Posts from "@/components/posts"
 import { Button } from "@/components/ui/button"
 import UserNav from "@/components/user-nav"
 import { getAllPosts } from "@/lib/api/posts"
-import { getPageSession } from "@/lib/auth"
+import { validateRequest } from "@/lib/auth"
 import {
   HydrationBoundary,
   QueryClient,
@@ -12,7 +12,7 @@ import {
 import Link from "next/link"
 
 export default async function Home() {
-  const session = await getPageSession()
+  const { session, user } = await validateRequest()
 
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({
@@ -32,7 +32,7 @@ export default async function Home() {
         </div>
       )}
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Posts sessionUserId={session?.user.userId} />
+        <Posts sessionUserId={user?.id} />
       </HydrationBoundary>
       {session && <PostCreateDialog />}
     </>

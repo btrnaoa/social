@@ -1,9 +1,8 @@
 "use client"
 
-import { userAuthSchema } from "@/lib/validations/auth"
+import { authSchema } from "@/lib/validations/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "./ui/button"
@@ -19,45 +18,36 @@ import {
 import { Input } from "./ui/input"
 
 interface UserAuthFormProps {
-  action: string
   submitButtonText: string
   headerText: string
   footerText: string
   footerLink: string
   footerLinkText: string
+  handleSubmit: (formData: FormData) => void
 }
 
 export default function UserAuthForm({
-  action,
   submitButtonText,
   headerText,
   footerText,
   footerLink,
   footerLinkText,
+  handleSubmit,
 }: UserAuthFormProps) {
-  const router = useRouter()
-
-  const form = useForm<z.infer<typeof userAuthSchema>>({
-    resolver: zodResolver(userAuthSchema),
+  const form = useForm<z.infer<typeof authSchema>>({
+    resolver: zodResolver(authSchema),
     defaultValues: {
       username: "",
       password: "",
     },
   })
 
-  const onSubmit = async (values: z.infer<typeof userAuthSchema>) => {
+  const onSubmit = async (values: z.infer<typeof authSchema>) => {
     const formData = new FormData()
     formData.append("username", values.username)
     formData.append("password", values.password)
 
-    const res = await fetch(action, {
-      method: "POST",
-      body: formData,
-      redirect: "manual",
-    })
-    if (res.status === 0) {
-      return router.refresh()
-    }
+    handleSubmit(formData)
   }
 
   return (
@@ -66,19 +56,14 @@ export default function UserAuthForm({
         <CardHeader className="text-lg font-medium">{headerText}</CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              action={action}
-              method="post"
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-xs text-muted-foreground">
-                      User Name
+                      Username
                     </FormLabel>
                     <FormControl>
                       <Input {...field} />
