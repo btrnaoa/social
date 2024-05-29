@@ -29,6 +29,9 @@ importers:
       '@radix-ui/react-label':
         specifier: ^2.0.2
         version: 2.0.2(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@radix-ui/react-separator':
+        specifier: ^1.0.3
+        version: 1.0.3(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.2.47)(react@18.2.0)
@@ -38,15 +41,12 @@ importers:
       clsx:
         specifier: ^2.1.0
         version: 2.1.0
-      dayjs:
-        specifier: ^1.11.10
-        version: 1.11.10
+      date-fns:
+        specifier: ^3.6.0
+        version: 3.6.0
       drizzle-orm:
         specifier: ^0.30.10
         version: 0.30.10(@neondatabase/serverless@0.7.1)(@types/pg@8.10.9)(@types/react@18.2.47)(pg@8.11.3)(postgres@3.4.4)(react@18.2.0)
-      drizzle-zod:
-        specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.30.10(@neondatabase/serverless@0.7.1)(@types/pg@8.10.9)(@types/react@18.2.47)(pg@8.11.3)(postgres@3.4.4)(react@18.2.0))(zod@3.22.4)
       lucia:
         specifier: ^3.2.0
         version: 3.2.0
@@ -1078,6 +1078,19 @@ packages:
       '@types/react-dom':
         optional: true
 
+  '@radix-ui/react-separator@1.0.3':
+    resolution: {integrity: sha512-itYmTy/kokS21aiV5+Z56MZB54KrhPgn6eHDKkFeOLR34HMN2s8PaN47qZZAGnvupcjxHaFZnW4pQEh0BvvVuw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
   '@radix-ui/react-slot@1.0.2':
     resolution: {integrity: sha512-YeTpuq4deV+6DusvVUW4ivBgnkHwECUu0BiN43L5UCDFgdhsRUWAghhTF5MbvNTPzmiFOx90asDSUjWuCNapwg==}
     peerDependencies:
@@ -1430,8 +1443,8 @@ packages:
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
 
-  dayjs@1.11.10:
-    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+  date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
 
   debug@3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
@@ -1580,12 +1593,6 @@ packages:
         optional: true
       sqlite3:
         optional: true
-
-  drizzle-zod@0.5.1:
-    resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
-    peerDependencies:
-      drizzle-orm: '>=0.23.13'
-      zod: '*'
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3716,6 +3723,16 @@ snapshots:
       '@types/react': 18.2.47
       '@types/react-dom': 18.2.18
 
+  '@radix-ui/react-separator@1.0.3(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@babel/runtime': 7.23.8
+      '@radix-ui/react-primitive': 1.0.3(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    optionalDependencies:
+      '@types/react': 18.2.47
+      '@types/react-dom': 18.2.18
+
   '@radix-ui/react-slot@1.0.2(@types/react@18.2.47)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.23.8
@@ -4100,7 +4117,7 @@ snapshots:
 
   damerau-levenshtein@1.0.8: {}
 
-  dayjs@1.11.10: {}
+  date-fns@3.6.0: {}
 
   debug@3.2.7:
     dependencies:
@@ -4176,11 +4193,6 @@ snapshots:
       pg: 8.11.3
       postgres: 3.4.4
       react: 18.2.0
-
-  drizzle-zod@0.5.1(drizzle-orm@0.30.10(@neondatabase/serverless@0.7.1)(@types/pg@8.10.9)(@types/react@18.2.47)(pg@8.11.3)(postgres@3.4.4)(react@18.2.0))(zod@3.22.4):
-    dependencies:
-      drizzle-orm: 0.30.10(@neondatabase/serverless@0.7.1)(@types/pg@8.10.9)(@types/react@18.2.47)(pg@8.11.3)(postgres@3.4.4)(react@18.2.0)
-      zod: 3.22.4
 
   eastasianwidth@0.2.0: {}
 

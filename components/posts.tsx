@@ -5,7 +5,7 @@ interface PostsProps {
   posts: PostWithUser[]
 }
 
-export default async function Posts({ posts }: PostsProps) {
+export default function Posts({ posts }: PostsProps) {
   return (
     <ul className="mx-2 space-y-4 sm:mx-auto sm:max-w-fit">
       {posts.map((post) => (

@@ -20,6 +20,7 @@ export default async function Home() {
         },
       },
     },
+    orderBy: (posts, { desc }) => [desc(posts.createdAt)],
   })
 
   return (
