@@ -1,4 +1,5 @@
 export * from "./comments"
+export * from "./likes"
 export * from "./posts"
 export * from "./sessions"
 export * from "./users"

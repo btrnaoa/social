@@ -1,11 +1,8 @@
-import { createComment } from "@/lib/actions/comments"
 import { validateRequest } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { PostWithUser } from "@/types"
 import { formatDistanceToNow } from "date-fns"
-import CommentList from "./comment-list"
-import CommentMutateForm from "./comment-mutate-form"
-import Comments from "./comments"
+import PostActions from "./post-actions"
 import PostCardOptionsMenu from "./post-card-options-menu"
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"
 import { Separator } from "./ui/separator"
@@ -16,9 +13,14 @@ interface PostCardProps {
 }
 
 export default async function PostCard({ post }: PostCardProps) {
-  const createCommentWithPostId = createComment.bind(null, post.id)
+  const { session, user } = await validateRequest()
 
-  const { session } = await validateRequest()
+  const likes = await db.query.likes.findMany({
+    columns: {
+      userId: true,
+    },
+    where: (likes, { eq }) => eq(likes.postId, post.id),
+  })
 
   const comments = await db.query.comments.findMany({
     with: {
@@ -59,13 +61,16 @@ export default async function PostCard({ post }: PostCardProps) {
         <Separator className="mt-4" />
       </CardContent>
       <CardFooter>
-        <Comments count={comments.length}>
-          <CommentList comments={comments} />
-          <CommentMutateForm
-            formAction={createCommentWithPostId}
-            className="mt-2"
-          />
-        </Comments>
+        <PostActions
+          postId={post.id}
+          liked={likes.filter((like) => like.userId === user?.id).length > 0}
+          count={{
+            likes: likes.length,
+            comments: comments.length,
+          }}
+          comments={comments}
+          sessionUserId={user?.id}
+        />
       </CardFooter>
     </Card>
   )

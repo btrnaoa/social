@@ -1,8 +1,8 @@
-import { comments, users } from "@/lib/db/schema"
 import { pgTable } from "@/lib/utils"
 import { relations } from "drizzle-orm"
 import { text, timestamp, varchar } from "drizzle-orm/pg-core"
 import { nanoid } from "nanoid"
+import { comments, users } from "../schema"
 
 export const posts = pgTable("posts", {
   id: varchar("id", { length: 21 })
